@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+  <title>Mi Hola Mundo</title>
+
+
+
+  <!-- Enlace al manifiesto estándar -->
+
+  <link rel="manifest" href="manifest.json">
+
+
+
+  <!-- Meta etiquetas específicas para iOS / Apple Safari -->
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <meta name="apple-mobile-web-app-title" content="HolaMundo">
+
+  <link rel="apple-touch-icon" href="icon-192.png">
+
+
+
+  <!-- Estilos visuales de la aplicación -->
+
+  <style>
+
+    * {
+
+      box-sizing: border-box;
+
+      margin: 0;
+
+      padding: 0;
+
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+      user-select: none;
+
+      -webkit-user-select: none;
+
+    }
+
+
+
+    body {
+
+      display: flex;
+
+      flex-direction: column;
+
+      justify-content: center;
+
+      align-items: center;
+
+      min-height: 100vh;
+
+      background: linear-gradient(135deg, #0d1117, #161b22);
+
+      color: #ffffff;
+
+      text-align: center;
+
+      padding: 24px;
+
+    }
+
+
+
+    .card {
+
+      background: rgba(255, 255, 255, 0.06);
+
+      border: 1px solid rgba(255, 255, 255, 0.12);
+
+      backdrop-filter: blur(12px);
+
+      -webkit-backdrop-filter: blur(12px);
+
+      border-radius: 24px;
+
+      padding: 36px 28px;
+
+      max-width: 340px;
+
+      width: 100%;
+
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+
+    }
+
+
+
+    .badge {
+
+      display: inline-block;
+
+      background: #238636;
+
+      color: #fff;
+
+      font-size: 12px;
+
+      font-weight: 600;
+
+      text-transform: uppercase;
+
+      letter-spacing: 0.08em;
+
+      padding: 6px 14px;
+
+      border-radius: 999px;
+
+      margin-bottom: 20px;
+
+    }
+
+
+
+    h1 {
+
+      font-size: 28px;
+
+      font-weight: 700;
+
+      margin-bottom: 12px;
+
+      background: linear-gradient(90deg, #58a6ff, #bc8cff);
+
+      -webkit-background-clip: text;
+
+      -webkit-text-fill-color: transparent;
+
+    }
+
+
+
+    p {
+
+      font-size: 15px;
+
+      color: #8b949e;
+
+      line-height: 1.5;
+
+      margin-bottom: 24px;
+
+    }
+
+
+
+    button {
+
+      background: #1f6feb;
+
+      color: #ffffff;
+
+      border: none;
+
+      border-radius: 12px;
+
+      padding: 14px 20px;
+
+      font-size: 16px;
+
+      font-weight: 600;
+
+      width: 100%;
+
+      cursor: pointer;
+
+      transition: transform 0.1s ease, background-color 0.2s ease;
+
+    }
+
+
+
+    button:active {
+
+      transform: scale(0.97);
+
+      background: #1158c7;
+
+    }
+
+
+
+    #contador {
+
+      margin-top: 18px;
+
+      font-size: 14px;
+
+      color: #58a6ff;
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <div class="card">
+
+    <span class="badge">PWA iOS Activa</span>
+
+    <h1>¡Hola Mundo!</h1>
+
+    <p>Esta es tu primera aplicación web progresiva ejecutándose en tu iPhone.</p>
+
+    <button id="btnPulsar">Toca la pantalla</button>
+
+    <div id="contador">Pulsaciones: 0</div>
+
+  </div>
+
+
+
+  <script>
+
+    // Lógica interactiva sencilla
+
+    let toques = 0;
+
+    const boton = document.getElementById('btnPulsar');
+
+    const textoContador = document.getElementById('contador');
+
+
+
+    boton.addEventListener('click', () => {
+
+      toques += 1;
+
+      textoContador.textContent = `Pulsaciones: ${toques}`;
+
+    });
+
+
+
+    // Registro del Service Worker para soporte offline
+
+    if ('serviceWorker' in navigator) {
+
+      window.addEventListener('load', () => {
+
+        navigator.serviceWorker.register('sw.js')
+
+          .then(reg => console.log('Service Worker registrado:', reg.scope))
+
+          .catch(err => console.error('Error registrando Service Worker:', err));
+
+      });
+
+    }
+
+  </script>
+
+</body>
+
+</html>

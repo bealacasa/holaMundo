@@ -1,0 +1,77 @@
+const CACHE_NAME = 'hola-mundo-cache-v1';
+
+const ASSETS = [
+
+  './',
+
+  './index.html',
+
+  './manifest.json',
+
+  './icon-192.png',
+
+  './icon-512.png'
+
+];
+
+
+
+// Instalación: almacena los archivos estáticos en caché
+
+self.addEventListener('install', event => {
+
+  event.waitUntil(
+
+    caches.open(CACHE_NAME).then(cache => {
+
+      return cache.addAll(ASSETS);
+
+    })
+
+  );
+
+  self.skipWaiting();
+
+});
+
+
+
+// Activación: limpia versiones antiguas de caché
+
+self.addEventListener('activate', event => {
+
+  event.waitUntil(
+
+    caches.keys().then(keys => {
+
+      return Promise.all(
+
+        keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))
+
+      );
+
+    })
+
+  );
+
+  self.clients.claim();
+
+});
+
+
+
+// Interceptar peticiones de red
+
+self.addEventListener('fetch', event => {
+
+  event.respondWith(
+
+    caches.match(event.request).then(response => {
+
+      return response || fetch(event.request);
+
+    })
+
+  );
+
+});
