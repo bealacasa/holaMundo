@@ -1,77 +1,40 @@
-const CACHE_NAME = 'hola-mundo-cache-v1';
-
-const ASSETS = [
-
-  './',
-
-  './index.html',
-
-  './manifest.json',
-
-  './icon-192.png',
-
-  './icon-512.png'
-
+const CACHE_NAME = "gym-weights-v1";
+const APP_FILES = [
+  "./",
+  "./index.html",
+  "./manifest.json"
 ];
 
-
-
-// Instalación: almacena los archivos estáticos en caché
-
-self.addEventListener('install', event => {
-
+self.addEventListener("install", event => {
   event.waitUntil(
-
-    caches.open(CACHE_NAME).then(cache => {
-
-      return cache.addAll(ASSETS);
-
-    })
-
+    caches.open(CACHE_NAME)
+      .then(cache => cache.addAll(APP_FILES))
+      .then(() => self.skipWaiting())
   );
-
-  self.skipWaiting();
-
 });
 
-
-
-// Activación: limpia versiones antiguas de caché
-
-self.addEventListener('activate', event => {
-
+self.addEventListener("activate", event => {
   event.waitUntil(
-
-    caches.keys().then(keys => {
-
-      return Promise.all(
-
-        keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))
-
-      );
-
-    })
-
+    caches.keys().then(keys =>
+      Promise.all(
+        keys
+          .filter(key => key !== CACHE_NAME)
+          .map(key => caches.delete(key))
+      )
+    ).then(() => self.clients.claim())
   );
-
-  self.clients.claim();
-
 });
 
-
-
-// Interceptar peticiones de red
-
-self.addEventListener('fetch', event => {
+self.addEventListener("fetch", event => {
+  if (event.request.method !== "GET") return;
 
   event.respondWith(
-
-    caches.match(event.request).then(response => {
-
-      return response || fetch(event.request);
-
+    caches.match(event.request).then(cached => {
+      return cached || fetch(event.request).then(response => {
+        const copy = response.clone();
+        caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
+        return response;
+      }).catch(() => caches.match("./index.html"));
     })
-
   );
-
 });

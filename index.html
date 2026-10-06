@@ -1,271 +1,457 @@
 <!DOCTYPE html>
-
 <html lang="es">
-
 <head>
-
   <meta charset="UTF-8">
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-
-  <title>Mi Hola Mundo</title>
-
-
-
-  <!-- Enlace al manifiesto estándar -->
-
+  <meta name="theme-color" content="#0d1117">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Gym Weights">
+  <title>Gym Weights</title>
   <link rel="manifest" href="manifest.json">
 
-
-
-  <!-- Meta etiquetas específicas para iOS / Apple Safari -->
-
-  <meta name="apple-mobile-web-app-capable" content="yes">
-
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
-  <meta name="apple-mobile-web-app-title" content="HolaMundo">
-
-  <link rel="apple-touch-icon" href="icon-192.png">
-
-
-
-  <!-- Estilos visuales de la aplicación -->
-
   <style>
-
     * {
-
       box-sizing: border-box;
-
       margin: 0;
-
       padding: 0;
-
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-
-      user-select: none;
-
-      -webkit-user-select: none;
-
+      -webkit-tap-highlight-color: transparent;
     }
 
-
+    :root {
+      color-scheme: dark;
+      --bg1: #0d1117;
+      --bg2: #161b22;
+      --card: rgba(255,255,255,.07);
+      --border: rgba(255,255,255,.12);
+      --muted: #8b949e;
+      --blue: #1f6feb;
+      --blue-dark: #1158c7;
+      --green: #238636;
+      --red: #da3633;
+    }
 
     body {
-
-      display: flex;
-
-      flex-direction: column;
-
-      justify-content: center;
-
-      align-items: center;
-
       min-height: 100vh;
-
-      background: linear-gradient(135deg, #0d1117, #161b22);
-
-      color: #ffffff;
-
-      text-align: center;
-
-      padding: 24px;
-
+      min-height: 100dvh;
+      background: linear-gradient(135deg, var(--bg1), var(--bg2));
+      color: #fff;
+      padding: max(20px, env(safe-area-inset-top)) 16px
+               max(24px, env(safe-area-inset-bottom)) 16px;
     }
 
-
-
-    .card {
-
-      background: rgba(255, 255, 255, 0.06);
-
-      border: 1px solid rgba(255, 255, 255, 0.12);
-
-      backdrop-filter: blur(12px);
-
-      -webkit-backdrop-filter: blur(12px);
-
-      border-radius: 24px;
-
-      padding: 36px 28px;
-
-      max-width: 340px;
-
+    .app {
       width: 100%;
-
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
-
+      max-width: 520px;
+      margin: 0 auto;
     }
 
-
+    header {
+      padding: 14px 4px 22px;
+    }
 
     .badge {
-
       display: inline-block;
-
-      background: #238636;
-
+      background: var(--green);
       color: #fff;
-
-      font-size: 12px;
-
-      font-weight: 600;
-
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
       text-transform: uppercase;
-
-      letter-spacing: 0.08em;
-
-      padding: 6px 14px;
-
+      padding: 6px 12px;
       border-radius: 999px;
-
-      margin-bottom: 20px;
-
+      margin-bottom: 13px;
     }
-
-
 
     h1 {
-
-      font-size: 28px;
-
-      font-weight: 700;
-
-      margin-bottom: 12px;
-
+      font-size: 30px;
+      line-height: 1.1;
+      margin-bottom: 8px;
       background: linear-gradient(90deg, #58a6ff, #bc8cff);
-
       -webkit-background-clip: text;
-
       -webkit-text-fill-color: transparent;
-
     }
 
-
-
-    p {
-
+    .subtitle {
+      color: var(--muted);
       font-size: 15px;
-
-      color: #8b949e;
-
-      line-height: 1.5;
-
-      margin-bottom: 24px;
-
+      line-height: 1.45;
     }
 
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 22px;
+      padding: 18px;
+      margin-bottom: 14px;
+      box-shadow: 0 12px 30px rgba(0,0,0,.25);
+    }
 
+    .add-form {
+      display: grid;
+      gap: 11px;
+    }
+
+    label {
+      color: #c9d1d9;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    input {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.22);
+      color: #fff;
+      border-radius: 13px;
+      padding: 14px 13px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #58a6ff;
+      box-shadow: 0 0 0 3px rgba(88,166,255,.12);
+    }
 
     button {
-
-      background: #1f6feb;
-
-      color: #ffffff;
-
-      border: none;
-
-      border-radius: 12px;
-
-      padding: 14px 20px;
-
+      border: 0;
+      border-radius: 13px;
+      padding: 13px 16px;
+      min-height: 48px;
+      color: #fff;
       font-size: 16px;
-
-      font-weight: 600;
-
-      width: 100%;
-
+      font-weight: 700;
       cursor: pointer;
-
-      transition: transform 0.1s ease, background-color 0.2s ease;
-
     }
 
-
-
-    button:active {
-
-      transform: scale(0.97);
-
-      background: #1158c7;
-
+    .primary {
+      background: var(--blue);
     }
 
+    .primary:active {
+      background: var(--blue-dark);
+      transform: scale(.98);
+    }
 
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 8px 2px 10px;
+    }
 
-    #contador {
+    .section-title h2 {
+      font-size: 18px;
+    }
 
-      margin-top: 18px;
+    .count {
+      color: var(--muted);
+      font-size: 13px;
+    }
 
+    .machine {
+      padding: 16px;
+      margin-bottom: 11px;
+    }
+
+    .machine:last-child {
+      margin-bottom: 0;
+    }
+
+    .machine-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 13px;
+    }
+
+    .machine-name {
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+
+    .last {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .weight {
+      white-space: nowrap;
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    .weight small {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .update-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 9px;
+    }
+
+    .update-row input {
+      min-width: 0;
+    }
+
+    .save {
+      background: var(--green);
+      padding-left: 18px;
+      padding-right: 18px;
+    }
+
+    .delete {
+      background: transparent;
+      color: #8b949e;
+      min-height: 38px;
+      padding: 6px 8px;
+      font-size: 12px;
+      margin-top: 7px;
+    }
+
+    .delete:active {
+      color: #ff7b72;
+    }
+
+    .empty {
+      text-align: center;
+      color: var(--muted);
+      padding: 28px 12px;
+      line-height: 1.5;
+    }
+
+    .message {
+      position: fixed;
+      left: 50%;
+      bottom: max(20px, env(safe-area-inset-bottom));
+      transform: translate(-50%, 20px);
+      opacity: 0;
+      pointer-events: none;
+      background: #21262d;
+      border: 1px solid var(--border);
+      padding: 11px 15px;
+      border-radius: 12px;
       font-size: 14px;
-
-      color: #58a6ff;
-
+      transition: .2s ease;
+      z-index: 10;
+      width: max-content;
+      max-width: calc(100vw - 32px);
     }
 
-  </style>
+    .message.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
 
+    .footer {
+      text-align: center;
+      color: #6e7681;
+      font-size: 11px;
+      padding: 8px 0 4px;
+    }
+  </style>
 </head>
 
 <body>
+  <main class="app">
+    <header>
+      <span class="badge">PWA · GYM</span>
+      <h1>Mis pesos</h1>
+      <p class="subtitle">Registra el peso de cada máquina y la próxima vez sabrás exactamente con cuánto entrenaste.</p>
+    </header>
 
-  <div class="card">
+    <section class="card add-form">
+      <label for="machineName">Nueva máquina</label>
+      <input id="machineName" type="text" placeholder="Ej. Máquina de brazos" autocomplete="off">
 
-    <span class="badge">PWA iOS Activa</span>
+      <label for="initialWeight">Peso actual (kg)</label>
+      <input id="initialWeight" type="number" inputmode="decimal" min="0" step="0.5" placeholder="Ej. 10">
 
-    <h1>¡Hola Mundo!</h1>
+      <button class="primary" id="addMachine">Añadir máquina</button>
+    </section>
 
-    <p>Esta es tu primera aplicación web progresiva ejecutándose en tu iPhone.</p>
+    <div class="section-title">
+      <h2>Mis máquinas</h2>
+      <span class="count" id="count">0 máquinas</span>
+    </div>
 
-    <button id="btnPulsar">Toca la pantalla</button>
+    <section id="machines"></section>
 
-    <div id="contador">Pulsaciones: 0</div>
+    <div class="footer">Los datos se guardan en este dispositivo.</div>
+  </main>
 
-  </div>
-
-
+  <div class="message" id="message" role="status"></div>
 
   <script>
+    const STORAGE_KEY = "gym-weights-v1";
 
-    // Lógica interactiva sencilla
+    const machineName = document.getElementById("machineName");
+    const initialWeight = document.getElementById("initialWeight");
+    const addMachine = document.getElementById("addMachine");
+    const machinesEl = document.getElementById("machines");
+    const countEl = document.getElementById("count");
+    const messageEl = document.getElementById("message");
 
-    let toques = 0;
+    let machines = loadMachines();
 
-    const boton = document.getElementById('btnPulsar');
-
-    const textoContador = document.getElementById('contador');
-
-
-
-    boton.addEventListener('click', () => {
-
-      toques += 1;
-
-      textoContador.textContent = `Pulsaciones: ${toques}`;
-
-    });
-
-
-
-    // Registro del Service Worker para soporte offline
-
-    if ('serviceWorker' in navigator) {
-
-      window.addEventListener('load', () => {
-
-        navigator.serviceWorker.register('sw.js')
-
-          .then(reg => console.log('Service Worker registrado:', reg.scope))
-
-          .catch(err => console.error('Error registrando Service Worker:', err));
-
-      });
-
+    function loadMachines() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+      } catch {
+        return [];
+      }
     }
 
+    function saveMachines() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(machines));
+    }
+
+    function showMessage(text) {
+      messageEl.textContent = text;
+      messageEl.classList.add("show");
+      clearTimeout(showMessage.timer);
+      showMessage.timer = setTimeout(() => messageEl.classList.remove("show"), 1600);
+    }
+
+    function render() {
+      countEl.textContent = `${machines.length} ${machines.length === 1 ? "máquina" : "máquinas"}`;
+
+      if (!machines.length) {
+        machinesEl.innerHTML = `
+          <div class="card empty">
+            Todavía no tienes máquinas.<br>
+            Añade la primera arriba para empezar.
+          </div>`;
+        return;
+      }
+
+      machinesEl.innerHTML = machines.map((machine, index) => `
+        <article class="card machine">
+          <div class="machine-top">
+            <div>
+              <div class="machine-name">${escapeHtml(machine.name)}</div>
+              <div class="last">Último peso registrado</div>
+            </div>
+            <div class="weight">${formatNumber(machine.weight)} <small>kg</small></div>
+          </div>
+
+          <div class="update-row">
+            <input
+              type="number"
+              inputmode="decimal"
+              min="0"
+              step="0.5"
+              value=""
+              placeholder="Nuevo peso"
+              data-weight="${index}"
+              aria-label="Nuevo peso para ${escapeHtml(machine.name)}">
+            <button class="save" data-save="${index}">Guardar</button>
+          </div>
+
+          <button class="delete" data-delete="${index}">Eliminar máquina</button>
+        </article>
+      `).join("");
+
+      document.querySelectorAll("[data-save]").forEach(button => {
+        button.addEventListener("click", () => updateWeight(Number(button.dataset.save)));
+      });
+
+      document.querySelectorAll("[data-delete]").forEach(button => {
+        button.addEventListener("click", () => deleteMachine(Number(button.dataset.delete)));
+      });
+
+      document.querySelectorAll("[data-weight]").forEach(input => {
+        input.addEventListener("keydown", event => {
+          if (event.key === "Enter") updateWeight(Number(input.dataset.weight));
+        });
+      });
+    }
+
+    function updateWeight(index) {
+      const input = document.querySelector(`[data-weight="${index}"]`);
+      const value = Number(input.value);
+
+      if (input.value.trim() === "" || !Number.isFinite(value) || value < 0) {
+        input.focus();
+        showMessage("Introduce un peso válido.");
+        return;
+      }
+
+      machines[index].weight = value;
+      saveMachines();
+      render();
+      showMessage("Peso guardado ✓");
+    }
+
+    function deleteMachine(index) {
+      const name = machines[index].name;
+      if (!confirm(`¿Eliminar "${name}"?`)) return;
+
+      machines.splice(index, 1);
+      saveMachines();
+      render();
+      showMessage("Máquina eliminada");
+    }
+
+    addMachine.addEventListener("click", () => {
+      const name = machineName.value.trim();
+      const weightText = initialWeight.value.trim();
+      const weight = Number(weightText);
+
+      if (!name) {
+        machineName.focus();
+        showMessage("Escribe el nombre de la máquina.");
+        return;
+      }
+
+      if (!weightText || !Number.isFinite(weight) || weight < 0) {
+        initialWeight.focus();
+        showMessage("Introduce un peso válido.");
+        return;
+      }
+
+      machines.push({ name, weight });
+      saveMachines();
+      render();
+
+      machineName.value = "";
+      initialWeight.value = "";
+      machineName.focus();
+      showMessage("Máquina añadida ✓");
+    });
+
+    function formatNumber(value) {
+      return Number.isInteger(value) ? value : String(value).replace(".", ",");
+    }
+
+    function escapeHtml(value) {
+      return value
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    // Service Worker para funcionamiento como PWA y caché offline.
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./sw.js")
+          .catch(error => console.error("Error registrando Service Worker:", error));
+      });
+    }
+
+    render();
   </script>
-
 </body>
-
 </html>
