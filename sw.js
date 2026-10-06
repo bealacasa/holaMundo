@@ -1,8 +1,9 @@
-const CACHE_NAME = "gym-weights-v1";
+const CACHE_NAME = "gym-weights-v2";
 const APP_FILES = [
   "./",
   "./index.html",
-  "./manifest.json"
+  "./manifest.json",
+  "./historial.html"
 ];
 
 self.addEventListener("install", event => {

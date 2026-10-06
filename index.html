@@ -79,6 +79,32 @@
       line-height: 1.45;
     }
 
+
+    .nav {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .nav a {
+      text-decoration: none;
+      text-align: center;
+      padding: 12px;
+      border-radius: 12px;
+      color: #c9d1d9;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.08);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .nav a.active {
+      color: #fff;
+      background: rgba(31,111,235,.35);
+      border-color: rgba(88,166,255,.4);
+    }
+
     .card {
       background: var(--card);
       border: 1px solid var(--border);
@@ -265,10 +291,16 @@
 <body>
   <main class="app">
     <header>
-      <span class="badge">App de Bea</span>
+      <span class="badge">PWA · GYM</span>
       <h1>Mis pesos</h1>
       <p class="subtitle">Registra el peso de cada máquina y la próxima vez sabrás exactamente con cuánto entrenaste.</p>
     </header>
+
+
+    <nav class="nav" aria-label="Navegación">
+      <a href="index.html" class="active">Mis pesos</a>
+      <a href="historial.html">Historial</a>
+    </nav>
 
     <section class="card add-form">
       <label for="machineName">Nueva máquina</label>
@@ -294,6 +326,7 @@
 
   <script>
     const STORAGE_KEY = "gym-weights-v1";
+    const HISTORY_KEY = "gym-weights-history-v1";
 
     const machineName = document.getElementById("machineName");
     const initialWeight = document.getElementById("initialWeight");
@@ -314,6 +347,21 @@
 
     function saveMachines() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(machines));
+    }
+
+    function addHistory(name, weight) {
+      let history = [];
+      try {
+        history = JSON.parse(localStorage.getItem(HISTORY_KEY)) || [];
+      } catch {}
+
+      history.unshift({
+        name,
+        weight,
+        date: new Date().toISOString()
+      });
+
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
     }
 
     function showMessage(text) {
@@ -389,6 +437,7 @@
 
       machines[index].weight = value;
       saveMachines();
+      addHistory(machines[index].name, value);
       render();
       showMessage("Peso guardado ✓");
     }
@@ -422,6 +471,7 @@
 
       machines.push({ name, weight });
       saveMachines();
+      addHistory(name, weight);
       render();
 
       machineName.value = "";
